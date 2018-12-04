@@ -1,2 +1,5 @@
 # ignore all data
 data/
+# ignore config files except samples
+*.ini
+!sample_config.ini
