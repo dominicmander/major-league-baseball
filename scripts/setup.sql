@@ -34,7 +34,7 @@ create or replace warehouse mlb_wh with
     --create stage
     create or replace stage mlb_stage
         url = 's3://keyrus-snowflake/major-league-baseball/'
-        credentials = (aws_key_id='AKIAJVIIA3SBZ5ICF2PQ' aws_secret_key='PfeG2vBM/XPtw7yeRwRo8MpqMjjeu5ZH2C3T5nc+')
+        credentials = (aws_key_id='' aws_secret_key='')
         file_format = mlb_csv
     ;
 
