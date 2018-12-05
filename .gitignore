@@ -3,3 +3,5 @@ data/
 # ignore config files except samples
 *.ini
 !sample_config.ini
+# ignore compiled files
+*.pyc

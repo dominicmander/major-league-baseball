@@ -1,6 +1,9 @@
 from configparser import SafeConfigParser
+import os
 import pandas as pd
 from sqlalchemy import create_engine
+
+import data_types
 
 def db_config():
     parser = SafeConfigParser()
@@ -20,14 +23,24 @@ def run_command(c):
     with engine.connect() as conn:
         conn.execute(c)
 
-def df_to_table(df, table, exists='fail'):
+def df_to_table(df, table, dtypes, exists='replace'):
     with engine.connect() as conn:
-        df.to_sql(table, conn, index=False, if_exists=exists, chunksize=10000)
+        df.to_sql(table, conn, dtype=dtypes, index=False, if_exists=exists, chunksize=10000)
+
+def load_files(dir):
+    for file in os.scandir(dir):
+        if file.is_file():
+            path = file.path
+            name = file.name.split('.')[0]
+            dtypes_csv = data_types.data_types_csv[name]
+            data = pd.read_csv(path, dtype=dtypes_csv)
+            dtypes_sql = data_types.data_types_sql[name]
+            df_to_table(data, name, dtypes_sql)
 
 if __name__ == '__main__':
     db = db_config()
     engine = db_engine()
-    
-    person_codes = pd.read_csv('../data/person_codes.csv')
-    df_to_table(person_codes, 'person_codes')
+
+    load_files('../data/')
+    # first run end to end took 00:24:14 with X-SMALL warehouse
     

@@ -5,8 +5,11 @@ create database if not exists mlb
 ;
 
 --create schemas
-create schema if not exists raw_data
-    comment = 'raw data'
+create schema if not exists raw_data_python
+    comment = 'raw data loaded in python'
+;
+create schema if not exists raw_data_snowsql
+    comment = 'raw data loaded in snowsql'
 ;
 create schema if not exists mlb
     comment = 'core mlb data'
@@ -21,8 +24,8 @@ create or replace warehouse mlb_wh with
     comment = 'warehouse for working with mlb database'
 ;
 
---prepare raw_data schema
-    use schema raw_data;
+--prepare raw_data_snowsql schema
+    use schema raw_data_snowsql;
 
     --create file format
     create or replace file format mlb_csv
