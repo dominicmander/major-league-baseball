@@ -121,7 +121,7 @@ from
 
 -- appearance_person fact table
 create table if not exists fact_appearance_person (
-    appearance_id int not null,
+    appearance_id int autoincrement,
     person_id string,
     team_id string,
     game_id string,

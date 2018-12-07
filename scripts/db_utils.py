@@ -13,21 +13,21 @@ def db_engine(schema):
 
 def run_query(q):
     try:
-        with engine.connect() as conn:
+        with engine.begin() as conn:
             return pd.read_sql(q, conn)
     except NameError:
         print("no engine defined, use db_utils.db_engine(schema) to define")
 
 def run_command(c):
     try:
-        with engine.connect() as conn:
+        with engine.begin() as conn:
             conn.execute(c)
     except NameError:
         print("no engine defined, use db_utils.db_engine(schema) to define")
 
 def df_to_table(df, table, dtypes, exists='replace'):
     try:
-        with engine.connect() as conn:
+        with engine.begin() as conn:
             df.to_sql(table, conn, dtype=dtypes, index=False, if_exists=exists, chunksize=10000)
     except NameError:
         print("no engine defined, use db_utils.db_engine(schema) to define")
