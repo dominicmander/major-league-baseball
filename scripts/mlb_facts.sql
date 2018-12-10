@@ -44,7 +44,7 @@ create table if not exists fact_appearance_team (
 insert overwrite into fact_appearance_team
 select
     h_name                              as team_id,
-    h_name || date || number_of_game    as game_id,
+    game_id                             ,
     1                                   as home,
     h_league                            as league_id,
     h_score                             as score,
@@ -82,7 +82,7 @@ from
 union
 select
     v_name                              as team_id,
-    h_name || date || number_of_game    as game_id,
+    game_id                             ,
     0                                   as home,
     v_league                            as league_id,
     v_score                             as score,

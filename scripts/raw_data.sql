@@ -176,6 +176,10 @@ create or replace table game_log (
 
 copy into game_log from '@mlb_stage/game_log.csv';
 
+--add game_id to game_log table
+alter table game_log add column game_id string;
+update game_log set game_id = h_name || date || number_of_game;
+
 -- create park_codes table
 create or replace table park_codes (
     park_id string,

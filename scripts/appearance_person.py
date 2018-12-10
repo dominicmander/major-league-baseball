@@ -12,7 +12,7 @@ c_pop_appearance_person_non_players_template = """
         appearance_type_id
     )
         SELECT
-            h_name || date || number_of_game,
+            game_id,
             {team},
             {field},
             {appearance_type}
@@ -64,7 +64,7 @@ c_pop_appearance_person_players_template = """
         appearance_type_id
     ) 
         SELECT
-            h_name || date || number_of_game,
+            game_id,
             {hv}_name,
             {hv}_player_{num}_id,
             'O{num}'
