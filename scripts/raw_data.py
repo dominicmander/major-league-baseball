@@ -5,6 +5,10 @@ import data_types
 import db_utils
 
 def load_files(dir):
+    """
+    Loops through all files in specified directory and loads each file into
+    a table of the same name
+    """
     for file in os.scandir(dir):
         if file.is_file():
             path = file.path
