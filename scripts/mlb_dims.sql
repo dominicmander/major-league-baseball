@@ -113,7 +113,7 @@ create table if not exists dim_game (
 );
 insert overwrite into dim_game
 select
-    h_name || date || number_of_game as game_id,
+    game_id,
     date,
     number_of_game,
     park_id,

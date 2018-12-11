@@ -3,6 +3,7 @@
 create database if not exists mlb
     comment = 'major league baseball statistics'
 ;
+use database mlb;
 
 --create schemas
 create schema if not exists raw_data_python
@@ -36,7 +37,7 @@ create or replace warehouse mlb_wh with
 
     --create stage
     create or replace stage mlb_stage
-        url = 's3://keyrus-snowflake/major-league-baseball/'
+        url = '&mlb_s3_bucket_url'
         credentials = (aws_key_id='&mlb_aws_key_id' aws_secret_key='&mlb_aws_secret_key')
         file_format = mlb_csv
     ;

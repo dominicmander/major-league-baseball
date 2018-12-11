@@ -1,5 +1,6 @@
 use schema raw_data_snowsql;
 
+-- create appearance_type table
 create or replace table appearance_type (
     appearance_type_id string,
     name string,
@@ -8,6 +9,7 @@ create or replace table appearance_type (
 
 copy into appearance_type from '@mlb_stage/appearance_type.csv';
 
+-- create game_log table
 create or replace table game_log (
     date int,
     number_of_game int,
@@ -174,6 +176,11 @@ create or replace table game_log (
 
 copy into game_log from '@mlb_stage/game_log.csv';
 
+--add game_id to game_log table
+alter table game_log add column game_id string;
+update game_log set game_id = h_name || date || number_of_game;
+
+-- create park_codes table
 create or replace table park_codes (
     park_id string,
     name string,
@@ -188,6 +195,7 @@ create or replace table park_codes (
 
 copy into park_codes from '@mlb_stage/park_codes.csv';
 
+-- create person_codes table
 create or replace table person_codes (
     id string,
     last string,
@@ -200,6 +208,7 @@ create or replace table person_codes (
 
 copy into person_codes from '@mlb_stage/person_codes.csv';
 
+-- create team_codes table
 create or replace table team_codes (
     team_id string,
     league string,
