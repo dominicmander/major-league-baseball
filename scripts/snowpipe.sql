@@ -166,6 +166,7 @@ create or replace table game_log (
 );
 
 --create snowpipe
-create or replace pipe game_log as
-    copy into game_log from '@mlb_snowpipe'
+create or replace pipe game_log_pipe as
+    copy into mlb.raw_data_snowpipe.game_log
+    from '@mlb.raw_data_snowpipe.mlb_snowpipe'
 ;
