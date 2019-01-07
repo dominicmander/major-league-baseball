@@ -1,9 +1,18 @@
-use role accountadmin;
+use role securityadmin;
 
 --create role
 create or replace role mlb_snowpipe
     comment = 'MLB snowpipe role'
 ;
+
+--create user
+create or replace user sys_mlb_snowpipe
+    default_role = mlb_snowpipe
+    comment = 'System user for MLB snowpipe'
+;
+
+--grant role to user
+grant role mlb_snowpipe to user sys_mlb_snowpipe;
 
 --set up role hierarchy
 grant role mlb_snowpipe to role sysadmin;
@@ -16,17 +25,11 @@ grant usage             on stage mlb.raw_data_snowpipe.mlb_snowpipe     to role 
 grant usage             on file format mlb.raw_data_snowpipe.mlb_txt    to role mlb_snowpipe;
 
 --grant ownership of pipe to role
+use role sysadmin;
 use database mlb;
-use schema raw_data_snowpipe;
-alter pipe game_log set pipe_execution_paused = true;
-grant ownership on pipe mlb.raw_data_snowpipe.game_log to role mlb_snowpipe;
-select system$pipe_force_resume('game_log');
-
---create user
-create or replace user sys_mlb_snowpipe
-    default_role = mlb_snowpipe
-    comment = 'System user for MLB snowpipe'
-;
+alter pipe mlb.raw_data_snowpipe.game_log_pipe set pipe_execution_paused = true;
+grant ownership on pipe mlb.raw_data_snowpipe.game_log_pipe to role mlb_snowpipe;
+select system$pipe_force_resume('mlb.raw_data_snowpipe.game_log_pipe');
 
 --create public/private key pair
 --openssl genrsa 2048 | openssl pkcs8 -topk8 -inform PEM -out sys_mlb_snowpipe_key.p8
